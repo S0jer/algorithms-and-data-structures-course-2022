@@ -1,23 +1,28 @@
-# Zadanie 2. (spadające klocki) Każdy klocek to przedział postaci [a, b]. Dany jest ciąg klocków [a1, b1],
-# [a2, b2], . . ., [an, bn]. Klocki spadają na oś liczbową w kolejności podanej w ciągu. Proszę zaproponować
-# algorytm, który oblicza ile klocków należy usunąć z listy tak, zeby każdy kolejny spadajacy klocek mieścił
-# się w całości w tam, który spadł tuż przed nim.
+# Zadanie 2. (problem sumy podzbioru) Dana jest tablica n liczb naturalnych A.
+# Proszę podać i zaimplementować algorytm, który sprawdza, czy da się wybrać podciąg liczb z A,
+# które sumują się do zadanej wartości T.
 
 
-def fallingBlocks(A):
+def substringOfSum(A, T):
     n = len(A)
-    A = sorted(A, key=lambda x: x[0])
-    print(A)
 
-    dp = [1 for _ in range(n)]
+    dp = [[1] + [0 for _ in range(T)] for _ in range(n)]
+
+    if A[0] <= T:
+        dp[0][A[0]] = 1
 
     for i in range(1, n):
-        for j in range(i - 1, -1, -1):
-            if A[j][0] <= A[i][0] and A[i][1] <= A[j][1]:
-                dp[i] = max(dp[j] + 1, dp[i])
-    print(dp)
-    return n - max(dp)
+        for j in range(1, T + 1):
+            dp[i][j] = dp[i - 1][j]
+            if j - A[i] >= 0 and dp[i][j] == 0:
+                dp[i][j] = dp[i - 1][j - A[i]]
+
+    if dp[n - 1][T] == 1:
+        return True
+    return False
 
 
-A = [[3, 5], [4, 10], [1, 5], [8, 8], [5, 8], [7, 8], [2, 3]]
-print(fallingBlocks(A))
+A = [5, 6, 7, 3, 3, 8, 13]
+T = 21
+
+print(substringOfSum(A, T))
