@@ -5,3 +5,8 @@
 # zostało. Ma teraz jedyną okazję, żeby podebrać kilka klocków innym dzieciom tak, żeby jego wieża była
 # najwyższa. Proszę podać możliwie najszybszy algorytm rozwiązujący ten problem, który zabiera minimalną
 # ilość klocków. (Proszę zwrócić uwagę, że liczby w i j mogą być bardzo duże.)
+
+
+
+# Imo posortować i wybrać największe czy coś.
+

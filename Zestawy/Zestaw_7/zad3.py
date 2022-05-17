@@ -6,3 +6,22 @@
 # np. załadować przyczepę do pełna uzywając 100 ładunków, albo zaladować do pojemności K − 1 używając
 # jednego ładunku, to lepsze jest to pierwsze rozwiązanie).
 
+
+# Przyczepę ładujemy największym możliwym ładunkiem, ponieważ ze względu na to że wagi są potęgami
+
+def trailerLoading(Weights, K):
+    result, n = [], len(Weights)
+    T = sorted(Weights, reverse=True)
+
+    for w in T:
+        if w <= K:
+            result.append(w)
+            K -= w
+
+    return result
+
+
+K = 27
+Weights = [16, 8, 4, 4, 2, 1, 1]
+
+print(trailerLoading(Weights, K))

@@ -1,5 +1,6 @@
 from zad5testy import runtests
 from queue import PriorityQueue
+from collections import deque
 
 
 # Paweł Jaśkowiec, 406165
@@ -18,12 +19,28 @@ from queue import PriorityQueue
 
 def plan(T):
     n = len(T)
-    Q = PriorityQueue()
-    Q.put((-1 * T[0], T[0]))
+
+    # Q = PriorityQueue()
+    # Q.put((-1 * T[0], T[0]))
+    # T[0] = -1
+    #
+    # while not Q.empty():
+    #     x, fuel = Q.get()
+    #     maxF, idx = -1, -1
+    #     if fuel >= n - 1:
+    #         return getRoad(T, n)
+    #     for i in range(0, min(fuel + 1, n)):
+    #         if T[i] > maxF:
+    #             maxF = T[i]
+    #             idx = i
+    #     Q.put((-1 * maxF, fuel + maxF))
+    #     T[idx] = -1
+    Q = deque()
+    Q.append((-1 * T[0], T[0]))
     T[0] = -1
 
-    while not Q.empty():
-        x, fuel = Q.get()
+    while len(Q) > 0:
+        x, fuel = Q.popleft()
         maxF, idx = -1, -1
         if fuel >= n - 1:
             return getRoad(T, n)
@@ -31,7 +48,7 @@ def plan(T):
             if T[i] > maxF:
                 maxF = T[i]
                 idx = i
-        Q.put((-1 * maxF, fuel + maxF))
+        Q.append((-1 * maxF, fuel + maxF))
         T[idx] = -1
 
     return []

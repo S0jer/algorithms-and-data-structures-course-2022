@@ -3,78 +3,57 @@ from zad4testy import runtests
 
 # Paweł Jaśkowiec 406165
 
-# f(i, p) = maksymalna pojemność budynków {0, i}, które na siebie nie nachodzą o cenie mniejszej niz p
-# f(i, p) = max(f(i-1, b), f(i - 1, b - sortedT[i][3]) + cap[i]) dla odpowiednich warunków
+# f(i, p) = max liczba studentów, które moga mieszkać w budynkach od 0 do i,
+# które na siebie nie nachodzą i kosztują <= p
 
-
-def overlap(T, rec, i):
-    n = len(rec)
-    notOverlap = 0
-    for el in rec:
-        if el == -1:
-            n -= 1
-        elif T[el][1] > T[i][2] or T[el][2] < T[i][1]:
-            notOverlap += 1
-
-    if notOverlap == n:
-        return True
-    return False
+# f(i, p) = max(f(i - 1, p), students(i) + f(prev(i), p - cost(i)))
 
 
 def select_buildings(T, p):
     n = len(T)
-    sortedT = sorted(T[::], key=lambda x: (x[1], x[2]))
-
-    cap = [0 for _ in range(n)]
+    for a in range(n):
+        T[a] = (a, T[a][0], T[a][1], T[a][2], T[a][3])
+    T = sorted(T, key=lambda x: x[3])
+    StudentsCap = [students(u) for u in T]
+    PreviousBuilding = [-1 for _ in range(n)]
+    dp = [[0 for _ in range(p + 1)] for _ in range(n)]
+    result = []
 
     for i in range(n):
-        cap[i] = students(sortedT[i])
+        for t in range(i - 1, -1, -1):
+            if T[i][2] > T[t][3]:
+                PreviousBuilding[i] = t
+                break
 
-    dp = [[[0, []] for _ in range(p + 1)] for _ in range(n)]
+    for i in range(n):
+        for t in range(p + 1):
+            dp[i][t] = max(dp[i - 1][t], dp[i][t])
+            if t - T[i][4] >= 0 and PreviousBuilding[i] == -1:
+                dp[i][t] = max(dp[i][t], StudentsCap[i])
+            elif t - T[i][4] >= 0 and PreviousBuilding[i] != -1:
+                dp[i][t] = max(dp[i][t], StudentsCap[i] + dp[PreviousBuilding[i]][t - T[i][4]])
 
-    for b in range(sortedT[0][3], p + 1):
-        dp[0][b][0] = cap[0]
-        dp[0][b][1] = [0]
+    getResult(dp, StudentsCap, PreviousBuilding, T, result, n - 1, p)
 
-    for b in range(p + 1):
-        for i in range(1, n):
-            dp[i][b][0] = dp[i - 1][b][0]
-            dp[i][b][1] = dp[i - 1][b][1][:]
+    return result
 
-            if b - sortedT[i][3] >= 0 and overlap(sortedT, dp[i - 1][b - sortedT[i][3]][1], i):
-                newCap = dp[i - 1][b - sortedT[i][3]][0] + cap[i]
-                if newCap > dp[i][b][0]:
-                    dp[i][b][0] = newCap
-                    dp[i][b][1] = dp[i - 1][b - sortedT[i][3]][1][:] + [i]
-                if cap[i] > dp[i][b][0]:
-                    dp[i][b][0] = cap[i]
-                    dp[i][b][1] = [i]
 
-    result = []
-    maxC = 0
+def getResult(dp, StudentsCap, PreviousBuilding, T, result, i, p):
+    if i == -1:
+        return result.sort()
+    if i == 0:
+        if p >= T[0][4]:
+            result += [T[0][0]]
+            return result.sort()
+    if dp[i - 1][p] == dp[i][p]:
+        return getResult(dp, StudentsCap, PreviousBuilding, T, result, i - 1, p)
+    result += [T[i][0]]
 
-    for i in range(p + 1):
-        if dp[n - 1][i][0] > maxC:
-            result = dp[n - 1][i][1]
-            maxC = dp[n - 1][i][0]
-    # for i in range(n):
-    #     for j in range(p + 1):
-    #         if dp[i][j][0] > maxC:
-    #             result = dp[i][j][1]
-    #             maxC = dp[i][j][0]
-
-    finalresult = []
-
-    for el in result:
-        for i in range(n):
-            if sortedT[el] == T[i]:
-                finalresult.append(i)
-
-    return finalresult
+    return getResult(dp, StudentsCap, PreviousBuilding, T, result, PreviousBuilding[i], p - T[i][4])
 
 
 def students(u):
-    return abs(u[0] * (u[2] - u[1]))
+    return abs(u[1] * (u[3] - u[2]))
 
 
 runtests(select_buildings)
