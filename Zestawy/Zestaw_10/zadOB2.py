@@ -5,7 +5,9 @@
 
 from math import inf
 
+
 # Czyli Floyd-Warchall
+
 
 def domkniecie(G):
     n = len(G)
@@ -21,6 +23,4 @@ def domkniecie(G):
                 graph[i][j] = min(graph[i][j], graph[i][k] + G[k][i])
 
     return graph
-
-
 

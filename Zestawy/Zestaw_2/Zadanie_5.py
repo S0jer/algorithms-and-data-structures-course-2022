@@ -1,28 +1,45 @@
-# Zadanie 4. (Pojemniki z wodą) Mamy serię pojemników z wodą, połączonych (każdy z każdym) rurami.
-# Pojemniki maja kształty prostokątów, rury nie maja objetosci (powierzchni). Każdy pojemnik opisany jest
-# przez współrzędne lewego górnego rogu i prawego dolnego rogu.
-# Wiemy, ze do pojemników nalano A “powierzchni” wody (oczywiście woda rurami spłynęła do najniźszych
-# pojemników). Proszę zaproponować algorytm Obliczający ile pojemników zostało w pełni zalanych.
+# Zadanie 5. (Lider ciągu) Mamy daną tablicę A z n liczbami. Proszę zaproponować algorytm o złożoności
+# O(n), który stwierdza, czy istnieje liczba x (tzw. lider A), która występuje w A na ponad połowie pozycji.
+
+from math import inf
 
 
-class Point:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+def lider(A):
+    n = len(A)
+    maxId = -inf
+    minId = inf
+
+    for i in range(n):
+        if A[i] > maxId:
+            maxId = A[i]
+        if A[i] < minId:
+            minId = A[i]
+
+    if minId >= 0:
+        m = maxId + 1
+        minus = 0
+    else:
+        minus = -1 * minId
+        m = minus + maxId + 1
+
+    tmp = 0
+    indexes = [-1 for _ in range(m)]
+
+    for j in range(n):
+        if indexes[A[j] + minus] == -1:
+            indexes[A[j] + minus] = tmp
+            tmp += 1
+
+    numbersCounter = [0 for _ in range(n)]
+
+    for k in range(n):
+        numbersCounter[indexes[A[k] + minus]] += 1
+
+    for num in numbersCounter:
+        if num > (n / 2):
+            return True
+    return False
 
 
-def capacity(A):
-    v = abs()
-
-
-def waterBottles(A):
-    pass
-
-
-
-
-
-if __name__ == '__main__':
-    A = [(Point(-1, 7), Point(1, 0)), (Point(2, 2), Point(6, -2)), (Point(7, 4), Point(12, 1))]
-    w_v = 44
-    print(waterBottles(A, w_v))
+T = [5, -22, 2, 2, 5, 5, 3]
+print(lider(T))

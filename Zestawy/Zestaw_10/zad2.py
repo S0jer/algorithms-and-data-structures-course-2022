@@ -9,7 +9,7 @@
 # zorganizować serię wyścigów tak, żeby przez każde miasto przebiegała trasa dokładnie jednego.
 
 
-def bitocja():
+def bitocja(G):
 
 
 

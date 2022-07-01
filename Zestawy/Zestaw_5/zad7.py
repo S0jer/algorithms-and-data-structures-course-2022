@@ -5,7 +5,7 @@
 
 
 def coins(M, x):
-    dp = [x + 1 for _ in range(x + 1)]
+    dp = [_ for _ in range(x + 1)]
     dp[0] = 0
 
     for i in range(x + 1):

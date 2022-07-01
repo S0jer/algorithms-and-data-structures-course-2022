@@ -101,6 +101,8 @@ def selectionSortLinkedList(head):
     newHead = insertIntoList(newHead, head.val)
 
     return newHead
+
+
 def findMaximum(head):
     first = Node(None)
     first.next = head
