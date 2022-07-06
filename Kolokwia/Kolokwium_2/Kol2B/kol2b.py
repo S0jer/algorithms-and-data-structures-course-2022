@@ -1,4 +1,5 @@
 from kol2btesty import runtests
+from queue import PriorityQueue
 from math import inf
 
 
@@ -48,5 +49,58 @@ def min_cost(O, C, T, L):
     return result
 
 
+def min_cost_nlog(O, C, T, L):
+    n, park = len(O), []
+
+    for i in range(n):
+        park.append((O[i], C[i]))
+    park.append((0, 0))
+    park.append((L, 0))
+    park.sort()
+
+    n = len(park)
+
+    dp = [[inf, inf] for _ in range(n)]
+    dp[0][0] = 0
+    dp[0][1] = 0
+
+    Q0 = PriorityQueue()
+    Q1T = PriorityQueue()
+    Q2T = PriorityQueue()
+
+    Q0.put((0, 0))  # Moge uzyc wyjatku przegladam w odleglosci T
+    Q2T.put((0, 0))  # Moge uzyc wyjatku przegladam w odleglosci 2T
+    Q1T.put((0, 0))  # Nie moge uzyc wyjatku
+
+    for i in range(1, n):
+        while True:
+            x = Q0.get()
+            if park[i][0] - x[1] <= T:
+                break
+        Q0.put(x)
+
+        while True:
+            y = Q2T.get()
+            if park[i][0] - y[1] <= 2 * T:
+                break
+        Q2T.put(y)
+
+        while True:
+            z = Q1T.get()
+            if park[i][0] - z[1] <= T:
+                break
+        Q1T.put(z)
+
+        dp[i][0] = x[0] + park[i][1]
+        dp[i][1] = min(y[0], z[0]) + park[i][1]
+
+        Q0.put((dp[i][0], park[i][0]))
+        Q2T.put((dp[i][0], park[i][0]))
+        Q1T.put((dp[i][1], park[i][0]))
+
+    return min(dp[-1][0], dp[-1][1])
+
+
 # zmien all_tests na True zeby uruchomic wszystkie testy
-runtests(min_cost, all_tests=True)
+runtests(min_cost_nlog, all_tests=True)
+# runtests(min_cost, all_tests=True)

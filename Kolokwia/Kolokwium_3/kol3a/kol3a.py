@@ -1,9 +1,5 @@
 from kol3atesty import runtests
 
-from math import inf
-from queue import PriorityQueue
-
-
 # Paweł Jaśkowiec, 406165
 
 # Z listy E oraz listy S tworzę graf zgodnie z opisem zadania, to znaczy z listy E o elementach: (u, v, t) powstają
@@ -15,9 +11,12 @@ from queue import PriorityQueue
 
 # Na tak powstałym grafie stosuję algorytm Dijkstra który oblicz najkrótszą drogę między wierzchołkiem a i b,
 # pod warunkiem że taka istnieje, jeśli nie to wartość drogi do b będzie równa inf a wtedy zwracamy None.
-
-
 # Złożoność: O(n^2)
+
+
+from queue import PriorityQueue
+from math import inf
+
 
 # def spacetravel(n, E, S, a, b):
 #     graph = [[-1 for _ in range(n)] for _ in range(n)]
@@ -82,5 +81,46 @@ def spacetravel(n, E, S, a, b):
     return dp[indexes[b]]
 
 
+def spacetravelFaster(n, E, S, a, b):
+    indexes = [-1 for _ in range(n)]
+
+    for s in S:
+        indexes[s] = 0
+    tmp = 1
+    for i in range(n):
+        if indexes[i] != 0:
+            indexes[i] = tmp
+            tmp += 1
+
+    graph = [[inf for _ in range(tmp)] for _ in range(tmp)]
+    dp = [inf for _ in range(tmp)]
+
+    for e in E:
+        graph[indexes[e[0]]][indexes[e[1]]] = min(graph[indexes[e[0]]][indexes[e[1]]], e[2])
+        graph[indexes[e[1]]][indexes[e[0]]] = min(graph[indexes[e[1]]][indexes[e[0]]], e[2])
+
+    G = [[] for _ in range(tmp)]
+
+    for e in E:
+        G[indexes[e[0]]].append((indexes[e[1]], graph[indexes[e[0]]][indexes[e[1]]]))
+        G[indexes[e[1]]].append((indexes[e[0]], graph[indexes[e[1]]][indexes[e[0]]]))
+
+    dp[indexes[a]] = 0
+    Q = PriorityQueue()
+    Q.put((0, indexes[a]))
+
+    while not Q.empty():
+        _, u = Q.get()
+        for i, l in G[u]:
+            if dp[i] > dp[u] + l:
+                dp[i] = dp[u] + l
+                Q.put((dp[i], i))
+
+    if dp[indexes[b]] == inf:
+        return None
+    return dp[indexes[b]]
+
+
 # zmien all_tests na True zeby uruchomic wszystkie testy
 runtests(spacetravel, all_tests=True)
+runtests(spacetravelFaster, all_tests=True)
