@@ -81,37 +81,37 @@ def hill( i ):
 
 TESTS = [
 # 0
-  {        #  I                                    x  y 
+  {        #  Res                                    x  y
     "arg" :[[4,10,5,1,8,2,3,4]],
     "hint": 6
   }, 
 # 1
-  {        #  I                                    x  y 
+  {        #  Res                                    x  y
     "arg" :[[1000-i**3 for i in range(200)]],
     "hint": 200
   }, 
 # 2
-  {        #  I                                    x  y 
+  {        #  Res                                    x  y
     "arg" :[[i**2 for i in range(1000)]],
     "hint": 1000
   }, 
 # 3
-  {        #  I                                    x  y 
+  {        #  Res                                    x  y
     "arg" :[[i*((i % 3)-1) for i in range(2000)]],
     "hint": 668
   }, 
 # 4
-  {        #  I                                    x  y 
+  {        #  Res                                    x  y
     "arg" :[[int((100+i/40)*cos(i/10)*sin(float(i)/30)) for i in range(5000)]],
     "hint": 172
   }, 
 # 5
-  {        #  I                                    x  y 
+  {        #  Res                                    x  y
     "arg" :[[MY_random() % 1000  for i in range(10000)]],
     "hint": 269
   }, 
 # 6
-  {        #  I                                    x  y 
+  {        #  Res                                    x  y
     "arg" :[[hill(i)  for i in range(20000)]],
     "hint": 1234
   }, 

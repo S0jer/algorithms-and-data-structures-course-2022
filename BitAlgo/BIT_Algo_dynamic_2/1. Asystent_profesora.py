@@ -1,4 +1,4 @@
-# Zadanie 1 (egzamin 2020, I termin)
+# Zadanie 1 (egzamin 2020, Res termin)
 # Asystent znanego profesora otrzymał polecenie wyliczenia sumy pewnego ciągu liczb (liczby mogą być zarówno
 # dodatnie jak i ujemne). Aby zminimalizować błędy zaokrągleń asystent postanowił wykonać powyższe dodawania w
 # takiej kolejności, by największy co do wartości bezwzględnej wynik tymczasowy (wynik każdej operacji dodawania;

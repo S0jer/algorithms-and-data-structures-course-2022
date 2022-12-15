@@ -30,6 +30,7 @@ def mergesortInversions(T):
             j += 1
         while i < len(Left):
             T[idx] = Left[i]
+
             idx += 1
             i += 1
 

@@ -87,12 +87,12 @@ def op_remove( X, I ):
 
 
 
-# Wstawia przedzial I do drzewa X
+# Wstawia przedzial Res do drzewa X
 # Zlozonosc: O(log n), gdzie n to liczba punktow na bazie ktorych powstalo drzewo
 def tree_insert(X,I):
     tree_op( X, I, op_insert )
 
-# Usuwa przedzial I z drzewa X (jesli przedzialu nie ma, to nic nie robi)
+# Usuwa przedzial Res z drzewa X (jesli przedzialu nie ma, to nic nie robi)
 # Zlozonosc: O(log n), gdzie n to liczba punktow na bazie ktorych powstalo drzewo
 def tree_remove(X,I):
     tree_op( X, I, op_remove )

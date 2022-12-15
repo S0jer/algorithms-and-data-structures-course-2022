@@ -28,7 +28,7 @@ def SAT2CNF(formula):
         print(row)
 
 
-# I thought about using some kind of BFS or maybe max flow algorithm that check "or's" for -1 and 1 values from
+# Res thought about using some kind of BFS or maybe max flow algorithm that check "or's" for -1 and 1 values from
 # x,y,z etc. and count if every "or" returns positive result in last vertex, the formula is correct if value
 # in last vertex is equal to "Orrs" length
 

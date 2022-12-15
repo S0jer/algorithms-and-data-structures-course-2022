@@ -6,7 +6,7 @@ from testy import *
 
 TESTS = [
 # 0
-  {        #  I                                    x  y 
+  {        #  Res                                    x  y
     "arg" :[  [[3,4], [2,5], [1,3], [4,6], [1,4]], 1, 6],
     "hint":[0,2,3,4]
   },
