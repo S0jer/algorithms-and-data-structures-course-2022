@@ -1,3 +1,3 @@
-# ASD_2022
+# Algorithms and Data Structures course 2022
 
-## Algorithmic problems solved during algorithms and data structures  course in 2021.
+## This repository is a collective of algorithms and structures implemented and explained in Python.
